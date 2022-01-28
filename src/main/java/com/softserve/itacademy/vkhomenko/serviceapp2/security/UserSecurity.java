@@ -56,7 +56,7 @@ public class UserSecurity implements UserDetails {
         this.password = password;
     }
 
-    public static UserDetails fromUser(UserEntity userEntity) {
+    public static UserDetails createFromEntity(UserEntity userEntity) {
         return new UserSecurity(
                 userEntity.getEmail(),
                 userEntity.getPassword()

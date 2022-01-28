@@ -1,5 +1,6 @@
 package com.softserve.itacademy.vkhomenko.serviceapp2.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -16,11 +17,8 @@ import java.io.IOException;
 @Component
 public class JwtTokenFilter extends GenericFilterBean {
 
-    private final JwtTokenProvider jwtTokenProvider;
-
-    public JwtTokenFilter(JwtTokenProvider jwtTokenProvider) {
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

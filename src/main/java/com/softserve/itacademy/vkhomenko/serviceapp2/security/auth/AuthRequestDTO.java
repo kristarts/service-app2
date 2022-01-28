@@ -1,4 +1,4 @@
-package com.softserve.itacademy.vkhomenko.serviceapp2.config;
+package com.softserve.itacademy.vkhomenko.serviceapp2.security.auth;
 
 import lombok.Data;
 
