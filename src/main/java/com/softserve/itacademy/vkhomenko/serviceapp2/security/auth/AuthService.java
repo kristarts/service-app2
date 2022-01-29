@@ -1,6 +1,7 @@
 package com.softserve.itacademy.vkhomenko.serviceapp2.security.auth;
 
 import com.softserve.itacademy.vkhomenko.serviceapp2.entity.UserEntity;
+import com.softserve.itacademy.vkhomenko.serviceapp2.exception.RegistrationException;
 import com.softserve.itacademy.vkhomenko.serviceapp2.repository.UserRepository;
 import com.softserve.itacademy.vkhomenko.serviceapp2.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,11 @@ public class AuthService {
     }
 
     public Map<Object, Object> register(AuthRequestDTO request) {
+
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new RegistrationException("Registration failed. Email already registered");
+        }
+
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(request.getEmail());
         userEntity.setName(request.getEmail());

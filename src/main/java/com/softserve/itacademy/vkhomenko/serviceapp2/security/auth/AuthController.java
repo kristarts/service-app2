@@ -1,5 +1,6 @@
 package com.softserve.itacademy.vkhomenko.serviceapp2.security.auth;
 
+import com.softserve.itacademy.vkhomenko.serviceapp2.exception.RegistrationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,22 +25,6 @@ public class AuthController {
     public ResponseEntity<?> authenticate(@RequestBody AuthRequestDTO request) {
 
         try {
-            /*String email = request.getEmail();
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getEmail(),
-                            request.getPassword()
-                    )
-                );
-            UserEntity userEntity = userRepository.findByEmail(
-                    request.getEmail())
-                    .orElseThrow(() -> new UsernameNotFoundException("User does not exist"));
-            String token = jwtTokenProvider.createToken(request.getEmail());
-            Map<Object, Object> response = new HashMap<>();
-            response.put("email", request.getEmail());
-            response.put("token", token);*/
-
-            //return ResponseEntity.ok(authService.register(request));
             return ResponseEntity.ok(authService.login(request));
         } catch (AuthenticationException e) {
             return new ResponseEntity<>("Invalid credentials", HttpStatus.FORBIDDEN);
@@ -49,7 +34,11 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> register(@RequestBody AuthRequestDTO request) {
+        try {
             return ResponseEntity.ok(authService.register(request));
+        } catch (RegistrationException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/logout")

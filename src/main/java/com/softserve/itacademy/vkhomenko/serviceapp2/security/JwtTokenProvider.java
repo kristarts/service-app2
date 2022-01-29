@@ -1,5 +1,6 @@
 package com.softserve.itacademy.vkhomenko.serviceapp2.security;
 
+import com.softserve.itacademy.vkhomenko.serviceapp2.exception.JwtAuthException;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;

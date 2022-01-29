@@ -1,4 +1,4 @@
-package com.softserve.itacademy.vkhomenko.serviceapp2.security;
+package com.softserve.itacademy.vkhomenko.serviceapp2.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
