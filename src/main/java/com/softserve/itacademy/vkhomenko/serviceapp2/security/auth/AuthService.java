@@ -10,9 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Service
 public class AuthService {
 
@@ -32,7 +29,7 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Map<Object, Object> login(AuthRequestDTO request) {
+    public String login(AuthRequestDTO request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -40,25 +37,21 @@ public class AuthService {
                 )
         );
 
-        String token = jwtTokenProvider.createToken(request.getEmail());
-
-        Map<Object, Object> response = new HashMap<>();
-        response.put("email", request.getEmail());
-        response.put("token", token);
-
-        return response;
+        return jwtTokenProvider.createToken(request.getEmail());
     }
 
-    public Map<Object, Object> register(AuthRequestDTO request) {
+    public String register(AuthRequestDTO request) {
 
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RegistrationException("Registration failed. Email already registered");
         }
 
-        UserEntity userEntity = new UserEntity();
-        userEntity.setEmail(request.getEmail());
-        userEntity.setName(request.getEmail());
-        userEntity.setPassword(passwordEncoder.encode(request.getPassword()));
+        UserEntity userEntity = UserEntity.builder()
+                .email(request.getEmail())
+                .name(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .build();
+
         userRepository.save(userEntity);
 
         return login(request);

@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -37,8 +38,8 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String username) {
-        Claims claims = Jwts.claims().setSubject(username);
+    public String createToken(String email) {
+        Claims claims = Jwts.claims().setSubject(email);
         Date now = new Date();
         Date expiration = new Date(now.getTime() + expirationMs);
 
@@ -73,7 +74,12 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader(authHeader);
+        String token = request.getHeader(authHeader);
+
+        if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
+            return token.substring(7);
+        }
+        return null;
     }
 
 }
