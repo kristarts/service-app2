@@ -1,6 +1,6 @@
 package com.softserve.itacademy.vkhomenko.serviceapp2.security;
 
-import com.softserve.itacademy.vkhomenko.serviceapp2.entity.UserEntity;
+import com.softserve.itacademy.vkhomenko.serviceapp2.entity.user.UserEntity;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
