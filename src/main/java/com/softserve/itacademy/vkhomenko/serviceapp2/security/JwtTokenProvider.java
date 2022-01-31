@@ -1,10 +1,8 @@
 package com.softserve.itacademy.vkhomenko.serviceapp2.security;
 
-import com.softserve.itacademy.vkhomenko.serviceapp2.exception.JwtAuthException;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -56,7 +54,7 @@ public class JwtTokenProvider {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return !claimsJws.getBody().getExpiration().before(new Date());
         } catch (JwtException | IllegalArgumentException e) {
-            throw new JwtAuthException("JWT token is expired or invalid", HttpStatus.UNAUTHORIZED);
+            return false;
         }
     }
 
