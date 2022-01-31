@@ -1,6 +1,6 @@
 package com.softserve.itacademy.vkhomenko.serviceapp2.security.auth;
 
-import com.softserve.itacademy.vkhomenko.serviceapp2.entity.UserEntity;
+import com.softserve.itacademy.vkhomenko.serviceapp2.entity.user.UserEntity;
 import com.softserve.itacademy.vkhomenko.serviceapp2.exception.RegistrationException;
 import com.softserve.itacademy.vkhomenko.serviceapp2.repository.UserRepository;
 import com.softserve.itacademy.vkhomenko.serviceapp2.security.JwtTokenProvider;
@@ -29,7 +29,7 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public String login(AuthRequestDTO request) {
+    public String login(AuthRequestDto request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -40,10 +40,10 @@ public class AuthService {
         return jwtTokenProvider.createToken(request.getEmail());
     }
 
-    public String register(AuthRequestDTO request) {
+    public String register(AuthRequestDto request) {
 
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RegistrationException("Registration failed. Email already registered");
+            throw new RegistrationException("Registration failed. Email already registered.");
         }
 
         UserEntity userEntity = UserEntity.builder()

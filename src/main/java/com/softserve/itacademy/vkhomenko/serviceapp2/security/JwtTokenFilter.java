@@ -1,6 +1,5 @@
 package com.softserve.itacademy.vkhomenko.serviceapp2.security;
 
-import com.softserve.itacademy.vkhomenko.serviceapp2.exception.JwtAuthException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,9 +30,9 @@ public class JwtTokenFilter extends GenericFilterBean {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
-        } catch (JwtAuthException e) {
-            throw new JwtAuthException("JWT token is expired or invalid");
+        } catch (Exception e) {
         }
+
         filterChain.doFilter(servletRequest, servletResponse);
     }
 }
