@@ -1,6 +1,8 @@
 package com.softserve.itacademy.vkhomenko.serviceapp2.service;
 
-import com.softserve.itacademy.vkhomenko.serviceapp2.entity.UserEntity;
+import com.softserve.itacademy.vkhomenko.serviceapp2.dto.user.UserDto;
+import com.softserve.itacademy.vkhomenko.serviceapp2.dto.user.UserMapper;
+import com.softserve.itacademy.vkhomenko.serviceapp2.entity.user.UserEntity;
 import com.softserve.itacademy.vkhomenko.serviceapp2.repository.UserRepository;
 import com.softserve.itacademy.vkhomenko.serviceapp2.security.UserSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("userService")
 public class UserService implements UserDetailsService {
@@ -20,25 +23,20 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not exist"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not exist."));
 
         return UserSecurity.createFromEntity(userEntity);
     }
 
-    public UserEntity addUser(UserEntity userEntity) {
-        return userRepository.saveAndFlush(userEntity);
-    }
+    public List<UserDto> getAllUsers() {
 
-    public void delete(UserEntity userEntity) {
-        userRepository.delete(userEntity);
-    }
+        List<UserEntity> userEntityList = userRepository.findAll();
 
-    public UserEntity editUserEntity(UserEntity userEntity) {
-        return userRepository.saveAndFlush(userEntity);
-    }
+        List<UserDto> userDtoList = userEntityList.stream()
+                .map(UserMapper.INSTANCE::userEntityToUserDto)
+                .collect(Collectors.toList());
 
-    public List<UserEntity> getAll() {
-        return userRepository.findAll();
+        return userDtoList;
     }
 
 }

@@ -1,6 +1,6 @@
 package com.softserve.itacademy.vkhomenko.serviceapp2.repository;
 
-import com.softserve.itacademy.vkhomenko.serviceapp2.entity.UserEntity;
+import com.softserve.itacademy.vkhomenko.serviceapp2.entity.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
