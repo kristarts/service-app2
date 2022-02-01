@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  postgres-only:
+    image: postgres:alpine
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_DB=service-app
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+networks:
+  network: {}
+
+
